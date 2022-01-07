@@ -1,10 +1,11 @@
 defmodule GrimoireWeb.Spells do
   @spell_list GrimoireWeb.SpellBook
+  @spell_prefix Atom.to_string(GrimoireWeb.SpellMacros.spell_prefix())
 
   def all do
     @spell_list.__info__(:functions)
     |> Enum.filter(fn {fun, arity} ->
-      String.starts_with?("#{fun}", "__grimoire_spell_") and arity == 0
+      String.starts_with?("#{fun}", @spell_prefix) and arity == 0
     end)
     |> Enum.map(fn {fun, 0} ->
       apply(@spell_list, fun, [])

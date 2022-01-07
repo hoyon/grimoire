@@ -10,6 +10,7 @@ defmodule GrimoireWeb.SpellMacros do
   end
 
   @spell_prefix :__grimoire_spell_
+  def spell_prefix, do: @spell_prefix
 
   defmacro spell(id, block) do
     exprs =
