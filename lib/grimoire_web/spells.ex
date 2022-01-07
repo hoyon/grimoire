@@ -4,14 +4,14 @@ defmodule GrimoireWeb.Spells do
       %{
         name: "hello",
         params: [],
-        fn: fn _ -> IO.inspect("Hello world!!!") end,
+        fn: fn _ -> IO.inspect("Hello world!!!") end
       },
       %{
         name: "echo",
         params: [
           %{name: :message, type: :string}
         ],
-        fn: fn params -> IO.inspect(params.message, label: :echo) end,
+        fn: fn params -> IO.inspect(params.message, label: :echo) end
       }
     ]
   end
