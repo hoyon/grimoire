@@ -2,13 +2,26 @@
 
 <h1><%= @spell.name %></h1>
 
-<%= form_for @conn, Routes.spell_path(@conn, :perform, @spell.name), [method: :post], fn f -> %>
-  <%= hidden_input :params, :name, value: @spell.name %>
+<%= if @spell.description do %>
+  <p>
+    <%= @spell.description %>
+  </p>
+<% end %>
+
+<%= form_for @conn, Routes.spell_path(@conn, :perform, @spell.id), [method: :post], fn f -> %>
+  <%= hidden_input :params, :name, value: @spell.id %>
 
   <%= for param <- @spell.params do %>
 
     <%= label :params, param.name, param.name %>
-    <%= text_input :params, param.name, required: true %>
+
+    <%= case param.type do %>
+      <% :string -> %>
+        <%= text_input :params, param.name, required: true %>
+      <% :integer -> %>
+        <%= number_input :params, param.name, required: true %>
+    <% end %>
+
 
   <% end %>
 
