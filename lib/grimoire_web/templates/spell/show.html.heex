@@ -17,9 +17,9 @@
 
     <%= case param.type do %>
       <% :string -> %>
-        <%= text_input :params, param.name, required: true %>
+        <%= text_input :params, param.name, required: required?(param) %>
       <% :integer -> %>
-        <%= number_input :params, param.name, required: true %>
+        <%= number_input :params, param.name, required: required?(param) %>
     <% end %>
 
 
