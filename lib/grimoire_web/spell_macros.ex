@@ -12,6 +12,10 @@ defmodule GrimoireWeb.SpellMacros do
   @spell_prefix :__grimoire_spell_
   def spell_prefix, do: @spell_prefix
 
+  def valid_type?(:integer), do: true
+  def valid_type?(:string), do: true
+  def valid_type?(_), do: false
+
   defmacro spell(id, block) do
     exprs =
       case block do
@@ -28,15 +32,25 @@ defmodule GrimoireWeb.SpellMacros do
             Map.put(acc, :description, desc)
 
           {:param, _, [name, type]} ->
+            unless valid_type?(type) do
+              raise "invalid type #{type} found in spell '#{id}'"
+            end
             Map.update!(acc, :params, fn ps -> ps ++ [%{name: name, type: type}] end)
 
           {:param, _, [name, type, opts]} ->
+            unless valid_type?(type) do
+              raise "invalid type #{type} found in spell '#{id}'"
+            end
             Map.update!(acc, :params, fn ps -> ps ++ [%{name: name, type: type, opts: opts}] end)
 
           {:action, _, [module, fun]} ->
             Map.put(acc, :action, {Macro.expand(module, __CALLER__), fun})
         end
       end)
+
+    unless spell.action do
+      raise "spell '#{id}' has no action!"
+    end
 
     escaped = Macro.escape(spell)
 

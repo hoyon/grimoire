@@ -27,6 +27,16 @@ defmodule GrimoireWeb.SpellBook do
     action __MODULE__, :fail
   end
 
+  spell :optional do
+    param :something, :string, optional: true
+    action __MODULE__, :optional
+  end
+
+  spell :dupe do
+    param :a, :string
+    action __MODULE__, :fail
+  end
+
   def greet(_) do
     IO.inspect("hello world")
     :ok
@@ -46,5 +56,17 @@ defmodule GrimoireWeb.SpellBook do
 
   def fail(%{message: message}) do
     {:error, "Oh no! #{message}"}
+  end
+
+  def optional(params) do
+    case params do
+      %{something: ""} ->
+        IO.inspect("got nothing")
+
+      %{something: s} ->
+        IO.inspect(s, label: :something)
+    end
+
+    {:ok, nil}
   end
 end

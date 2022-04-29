@@ -2,12 +2,14 @@ defmodule GrimoireWeb.SpellController do
   use GrimoireWeb, :controller
   alias GrimoireWeb.Spells
 
+  @spell_book GrimoireWeb.SpellBook
+
   def index(conn, _params) do
-    render(conn, "index.html", spells: Spells.all())
+    render(conn, "index.html", spells: Spells.all(@spell_book))
   end
 
   def show(conn, %{"spell" => spell_id}) do
-    case Spells.get(spell_id) do
+    case Spells.get(@spell_book, spell_id) do
       nil ->
         render(conn, "not_found.html")
 
@@ -17,7 +19,7 @@ defmodule GrimoireWeb.SpellController do
   end
 
   def perform(conn, %{"spell" => spell_id, "params" => params}) do
-    case Spells.perform(spell_id, params) do
+    case Spells.cast(@spell_book, spell_id, params) do
       %{status: :error, error_message: message, duration_ms: duration} ->
         conn
         |> put_flash(:error, "Error! Message: #{message}. Failed after #{duration}ms")

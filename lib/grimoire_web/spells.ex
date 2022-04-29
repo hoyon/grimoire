@@ -1,32 +1,46 @@
 defmodule GrimoireWeb.Spells do
-  @spell_list GrimoireWeb.SpellBook
   @spell_prefix Atom.to_string(GrimoireWeb.SpellMacros.spell_prefix())
 
-  def all do
-    @spell_list.__info__(:functions)
+  def all(spell_book) do
+    spell_book.__info__(:functions)
     |> Enum.filter(fn {fun, arity} ->
       String.starts_with?("#{fun}", @spell_prefix) and arity == 0
     end)
     |> Enum.map(fn {fun, 0} ->
-      apply(@spell_list, fun, [])
+      apply(spell_book, fun, [])
     end)
   end
 
-  def get(spell_id) do
-    Enum.find(all(), fn x -> Atom.to_string(x.id) == spell_id end)
+  def get(spell_book, spell_id) do
+    Enum.find(all(spell_book), fn x -> "#{x.id}" == "#{spell_id}" end)
   end
 
-  def perform(spell_id, params) do
-    case get(spell_id) do
+  def cast(spell_book, spell_id, params) do
+    case get(spell_book, spell_id) do
       nil ->
         {:error, "invalid spell"}
 
       spell ->
-        do_perform(spell, params)
+        do_cast(spell, params)
     end
   end
 
-  defp do_perform(spell, params) do
+  def cast!(spell_book, spell_id, params) do
+    case get(spell_book, spell_id) do
+      nil ->
+        raise "invalid spell!"
+
+      spell ->
+        case do_cast(spell, params) do
+          %{status: :error, error_message: msg} ->
+            raise "Cast failed: #{msg}"
+          %{status: :ok, result: result} ->
+            result
+        end
+    end
+  end
+
+  defp do_cast(spell, params) do
     {m, f} = spell.action
 
     params =
@@ -48,7 +62,7 @@ defmodule GrimoireWeb.Spells do
 
   defp cast_params(params, spell) do
     Enum.reduce(params, %{}, fn {key, val}, acc ->
-      found = Enum.find(spell.params, fn p -> Atom.to_string(p.name) == key end)
+      found = Enum.find(spell.params, fn p -> "#{p.name}" == "#{key}" end)
 
       if found do
         cast_val =
