@@ -27,6 +27,10 @@ defmodule GrimoireWeb.SpellBook do
     action __MODULE__, :fail
   end
 
+  spell :raise do
+    action __MODULE__, :raise_error
+  end
+
   spell :optional do
     param :something, :string, optional: true
     action __MODULE__, :optional
@@ -56,6 +60,10 @@ defmodule GrimoireWeb.SpellBook do
 
   def fail(%{message: message}) do
     {:error, "Oh no! #{message}"}
+  end
+
+  def raise_error(_) do
+    raise "oh dear"
   end
 
   def optional(params) do

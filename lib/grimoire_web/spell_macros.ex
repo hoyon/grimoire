@@ -45,6 +45,9 @@ defmodule GrimoireWeb.SpellMacros do
 
           {:action, _, [module, fun]} ->
             Map.put(acc, :action, {Macro.expand(module, __CALLER__), fun})
+
+          {field, _, args} ->
+            raise "invalid field #{field}/#{length(args)} in spell '#{id}'"
         end
       end)
 

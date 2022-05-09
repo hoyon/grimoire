@@ -8,7 +8,7 @@
   </p>
 <% end %>
 
-<%= form_for @conn, Routes.spell_path(@conn, :perform, @spell.id), [method: :post], fn f -> %>
+<%= form_for @conn, Routes.spell_path(@conn, :perform, @spell.id), [method: :post], fn _f -> %>
   <%= hidden_input :params, :name, value: @spell.id %>
 
   <%= for param <- @spell.params do %>

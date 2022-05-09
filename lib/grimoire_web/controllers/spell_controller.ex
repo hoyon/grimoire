@@ -20,12 +20,12 @@ defmodule GrimoireWeb.SpellController do
 
   def perform(conn, %{"spell" => spell_id, "params" => params}) do
     case Spells.cast(@spell_book, spell_id, params) do
-      %{status: :error, error_message: message, duration_ms: duration} ->
+      {:error, %{error_message: message, duration_ms: duration}} ->
         conn
         |> put_flash(:error, "Error! Message: #{message}. Failed after #{duration}ms")
         |> redirect(to: Routes.spell_path(conn, :show, spell_id))
 
-      %{status: :ok, result: res, duration_ms: duration} ->
+      {:ok, %{result: res, duration_ms: duration}} ->
         conn
         |> put_flash(:info, "Success! Result: #{res}. Took #{duration}ms")
         |> redirect(to: Routes.spell_path(conn, :show, spell_id))

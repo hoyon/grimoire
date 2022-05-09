@@ -41,23 +41,20 @@ defmodule GrimoireWeb.Spells do
   end
 
   defp do_cast(spell, params) do
-    {m, f} = spell.action
 
     params =
       params
       |> cast_params(spell)
 
-    {time, output} = :timer.tc(m, f, [params])
+    {time, output} = :timer.tc(__MODULE__, :run_action, [spell, params])
 
-    res =
-      case output do
-        :ok -> %{status: :ok, result: nil}
-        {:ok, val} -> %{status: :ok, result: val}
-        {:error, msg} -> %{status: :error, error_message: msg}
+    duration_ms = time / 1000
+
+    case output do
+      :ok -> {:ok, %{result: nil, duration_ms: duration_ms}}
+      {:ok, val} -> {:ok, %{result: val, duration_ms: duration_ms}}
+      {:error, msg} -> {:error, %{error_message: msg, duration_ms: duration_ms}}
     end
-
-    res
-    |> Map.put(:duration_ms, time / 1000)
   end
 
   defp cast_params(params, spell) do
@@ -79,5 +76,17 @@ defmodule GrimoireWeb.Spells do
         acc
       end
     end)
+  end
+
+  def run_action(spell, params) do
+    {m, f} = spell.action
+
+    try do
+      IO.inspect(params)
+      apply(m, f, [params])
+    rescue
+      e ->
+        {:error, "Error raised! #{Exception.message(e)}"}
+    end
   end
 end
