@@ -22,6 +22,9 @@ defmodule GrimoireWeb.Router do
     get "/spell", SpellController, :index
     get "/spell/:spell", SpellController, :show
     post "/spell/:spell", SpellController, :perform
+
+    live "/spells_live", SpellsLive
+    live "/cast_live/:id", CastLive
   end
 
   # Other scopes may use custom stacks.
