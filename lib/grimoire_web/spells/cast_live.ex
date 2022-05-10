@@ -4,6 +4,7 @@ defmodule GrimoireWeb.CastLive do
   alias GrimoireWeb.SpellsLive
 
   @spell_book GrimoireWeb.SpellBook
+  @spell_id_field "__grimoire_spell_id"
 
   def mount(%{"id" => spell_id}, _assigns, socket) do
     spell = Spells.get(@spell_book, spell_id)
@@ -14,6 +15,7 @@ defmodule GrimoireWeb.CastLive do
       |> assign(:task, nil)
       |> assign(:result, nil)
       |> assign(:error, nil)
+      |> assign(:spell_id_field, @spell_id_field)
 
     {:ok, socket}
   end
@@ -23,7 +25,7 @@ defmodule GrimoireWeb.CastLive do
 
     task =
       Task.Supervisor.async_nolink(Grimoire.TaskSupervisor, fn ->
-        Spells.cast(@spell_book, params["__grimoire_spell_id"], params)
+        Spells.cast(@spell_book, params[@spell_id_field], params)
       end)
 
     socket = assign(socket, :task, task)
@@ -68,7 +70,7 @@ defmodule GrimoireWeb.CastLive do
     <% end %>
 
     <.form for={:spell} phx-submit="cast">
-      <%= hidden_input :params, :__grimoire_spell_id, value: @spell.id %>
+      <%= hidden_input :params, @spell_id_field, value: @spell.id %>
 
       <%= for param <- @spell.params do %>
         <%= label :params, param.name, param.name %>

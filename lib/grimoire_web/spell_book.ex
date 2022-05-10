@@ -1,8 +1,13 @@
 defmodule GrimoireWeb.SpellBook do
   use GrimoireWeb.SpellMacros
 
+  spell :console do
+    description "Output message to console"
+    action __MODULE__, :console
+  end
+
   spell :greet do
-    description "Output greeting to console"
+    param :name, :string
     action __MODULE__, :greet
   end
 
@@ -36,9 +41,13 @@ defmodule GrimoireWeb.SpellBook do
     action __MODULE__, :optional
   end
 
-  def greet(_) do
-    IO.inspect("hello world")
+  def console(_) do
+    IO.inspect("hello from grimoire")
     :ok
+  end
+
+  def greet(%{name: name}) do
+    {:ok, "Hello #{name}!"}
   end
 
   def echo(%{message: m}) do
