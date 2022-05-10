@@ -1,7 +1,0 @@
-<h1>Spell index!</h1>
-
-<%= for spell <- @spells do %>
-  <div>
-    <%= link spell.name, to: Routes.spell_path(@conn, :show, spell.id) %>
-  </div>
-<% end %>
