@@ -21,8 +21,6 @@ defmodule GrimoireWeb.CastLive do
   end
 
   def handle_event("cast", %{"params" => params}, socket) do
-    IO.inspect(params)
-
     task =
       Task.Supervisor.async_nolink(Grimoire.TaskSupervisor, fn ->
         Spells.cast(@spell_book, params[@spell_id_field], params)
@@ -86,13 +84,17 @@ defmodule GrimoireWeb.CastLive do
       <%= submit "Do it!", disabled: not is_nil(@task) %>
     </.form>
 
+    <%= if not is_nil(@task) do %>
+      Running...
+    <% end %>
+
     <%= if not is_nil(@result) do %>
     <div>
       <div>
         Took: <%= @result[:duration_ms] %>ms
       </div>
       <div>
-        Result: <%= @result[:result] %>
+        Result: <%= format_result(@result) %>
       </div>
     </div>
     <% end %>
@@ -103,12 +105,16 @@ defmodule GrimoireWeb.CastLive do
         Took: <%= @error[:duration_ms] %>ms
       </div>
       <div>
-        Result: <%= @error[:error_message] %>
+      Error!
+      <pre><%= @error[:error_message] %></pre>
       </div>
     </div>
     <% end %>
     """
   end
+
+  defp format_result(%{result: nil}), do: "Ok"
+  defp format_result(%{result: res}), do: inspect(res)
 
   defp required?(%{opts: opts}) do
     Keyword.get(opts, :optional, false) == false

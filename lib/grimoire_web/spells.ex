@@ -82,11 +82,10 @@ defmodule GrimoireWeb.Spells do
     {m, f} = spell.action
 
     try do
-      IO.inspect(params)
       apply(m, f, [params])
     rescue
       e ->
-        {:error, "Error raised! #{Exception.message(e)}"}
+        {:error, Exception.format(:error, e, __STACKTRACE__)}
     end
   end
 end
