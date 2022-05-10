@@ -13,9 +13,10 @@ defmodule Grimoire.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Grimoire.PubSub},
       # Start the Endpoint (http/https)
-      GrimoireWeb.Endpoint
+      GrimoireWeb.Endpoint,
       # Start a worker by calling: Grimoire.Worker.start_link(arg)
-      # {Grimoire.Worker, arg}
+      # {Grimoire.Worker, arg},
+      {Task.Supervisor, name: Grimoire.TaskSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

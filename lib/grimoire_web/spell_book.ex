@@ -36,11 +36,6 @@ defmodule GrimoireWeb.SpellBook do
     action __MODULE__, :optional
   end
 
-  spell :dupe do
-    param :a, :string
-    action __MODULE__, :fail
-  end
-
   def greet(_) do
     IO.inspect("hello world")
     :ok
