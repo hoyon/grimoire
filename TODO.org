@@ -1,16 +1,19 @@
-* DONE boolean inputs
-* TODO Select inputs
-* TODO File inputs?
-* TODO Live view interface
-* TODO Make into library
-* TODO Proper tests
-* TODO Database transactions
-* TODO Documentation
-* TODO Timeouts / ability to cancel tasks
-* TODO Think of a new name
-* TODO Progress bar
-  Maybe callback function to optionally report progress
-  State saved in genserver
-* TODO Approval mechanism
-* DONE action -> handler
-* TODO give spells custom names
+* MVP
+** TODO Select inputs
+** TODO Make into library
+** TODO Tests for core functionality
+** TODO Testing helpers for spells
+** TODO Documentation
+** TODO Think of a new name
+** TODO Audit logging to database
+** TODO Approval mechanism
+** DONE give spells custom names
+** DONE Boolean inputs
+** DONE Live view interface
+** DONE action -> handler
+
+* Maybe
+** TODO File inputs?
+** TODO Database transactions / hooks?
+** TODO Timeouts / ability to cancel tasks
+** TODO Progress bar callback

@@ -29,6 +29,9 @@ defmodule GrimoireWeb.SpellMacros do
     spell =
       Enum.reduce(exprs, base_spell, fn expr, acc ->
         case expr do
+          {:name, _, [name]} ->
+            Map.put(acc, :name, name)
+
           {:description, _, [desc]} ->
             Map.put(acc, :description, desc)
 

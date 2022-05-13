@@ -56,6 +56,11 @@ defmodule GrimoireWeb.SpellBook do
     handler __MODULE__, :with_bool
   end
 
+  spell :custom_name do
+    name "My custom spell name"
+    handler __MODULE__, :console
+  end
+
   def console(_) do
     IO.inspect("hello from grimoire")
     :ok
