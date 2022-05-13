@@ -57,7 +57,7 @@ defmodule GrimoireWeb.CastLive do
   defp format_result(%{result: res}), do: inspect(res)
 
   defp required?(%{opts: opts}) do
-    Keyword.get(opts, :optional, false) == false
+    Keyword.get(opts, :required, true)
   end
 
   defp required?(_), do: true

@@ -8,7 +8,7 @@
 ** TODO Audit logging to database
 ** TODO Approval mechanism
 ** DONE Descriptions for params
-** TODO optional -> required
+** DONE optional -> required
 ** DONE give spells custom names
 ** DONE Boolean inputs
 ** DONE Live view interface

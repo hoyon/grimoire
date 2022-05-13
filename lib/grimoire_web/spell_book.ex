@@ -36,8 +36,8 @@ defmodule GrimoireWeb.SpellBook do
     handler __MODULE__, :raise_error
   end
 
-  spell :optional do
-    param :something, :string, optional: true
+  spell :optional_param do
+    param :something, :string, required: false
     handler __MODULE__, :optional
   end
 
