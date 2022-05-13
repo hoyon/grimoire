@@ -67,4 +67,8 @@ defmodule GrimoireWeb.CastLive do
   end
 
   defp description(_), do: nil
+
+  defp select_options(%{opts: opts}) do
+    Keyword.fetch!(opts, :options)
+  end
 end

@@ -1,4 +1,5 @@
 locals_without_parens = [
+  name: 1,
   description: 1,
   spell: 2,
   param: 2,

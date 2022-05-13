@@ -72,6 +72,9 @@ defmodule GrimoireWeb.Spells do
 
             :boolean ->
               cast_boolean(val)
+
+            :select ->
+              val
           end
 
         Map.put(acc, found.name, cast_val)

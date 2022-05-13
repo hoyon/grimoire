@@ -54,8 +54,9 @@ defmodule GrimoireWeb.SpellBook do
 
     param :string_param, :string, description: "A string"
     param :integer_param, :integer, description: "A number"
+    param :select_param, :select, options: ["a", "b", "c"]
     param :launch_rockets?, :boolean, description: "Rockets!!!"
-    handler __MODULE__, :with_bool
+    handler __MODULE__, :complete
   end
 
   def console(_) do
@@ -99,7 +100,9 @@ defmodule GrimoireWeb.SpellBook do
     {:ok, nil}
   end
 
-  def with_bool(%{launch_rockets?: launch_rockets?}) do
+  def complete(%{launch_rockets?: launch_rockets?} = params) do
+    IO.inspect(params)
+
     if launch_rockets? do
       {:ok, "Rockets have been launched!"}
     else

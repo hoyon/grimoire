@@ -20,12 +20,14 @@
           <%= text_to_html(desc) %>
         <% end %>
         <%= text_input :params, param.name, required: required?(param) %>
+
       <% :integer -> %>
         <%= label :params, param.name, param.name %>
         <%= if desc = description(param) do %>
           <%= text_to_html(desc) %>
         <% end %>
         <%= number_input :params, param.name, required: required?(param) %>
+
       <% :boolean -> %>
         <%= label :params, param.name do %>
           <%= checkbox :params, param.name %>
@@ -34,6 +36,14 @@
             <%= text_to_html(desc) %>
           <% end %>
         <% end %>
+
+      <% :select -> %>
+        <%= label :params, param.name, param.name %>
+        <%= if desc = description(param) do %>
+          <%= text_to_html(desc) %>
+        <% end %>
+        <%= select :params, param.name, select_options(param) %>
+
     <% end %>
   <% end %>
 

@@ -15,6 +15,7 @@ defmodule GrimoireWeb.SpellMacros do
   def valid_type?(:integer), do: true
   def valid_type?(:string), do: true
   def valid_type?(:boolean), do: true
+  def valid_type?(:select), do: true
   def valid_type?(_), do: false
 
   defmacro spell(id, block) do

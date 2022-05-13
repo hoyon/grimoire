@@ -1,21 +1,22 @@
 * MVP
-** TODO Select inputs
-** TODO Make into library
-** TODO Tests for core functionality
-** TODO Testing helpers for spells
-** TODO Documentation
-** TODO Think of a new name
-** TODO Audit logging to database
 ** TODO Approval mechanism
-** DONE Descriptions for params
-** DONE optional -> required
-** DONE give spells custom names
-** DONE Boolean inputs
-** DONE Live view interface
+** TODO Audit logging to database
+** TODO Documentation
+** TODO Make into library
+** TODO Testing helpers for spells
+** TODO Tests for core functionality
+** TODO Think of a new name
+** TODO Validate select input values
 ** DONE action -> handler
-
+** DONE Boolean inputs
+** DONE Descriptions for params
+** DONE give spells custom names
+** DONE Live view interface
+** DONE optional -> required
+** DONE Select inputs
 * Maybe
 ** TODO File inputs?
+** TODO Dynamic select input options
 ** TODO Database transactions / hooks?
 ** TODO Timeouts / ability to cancel tasks
 ** TODO Progress bar callback
