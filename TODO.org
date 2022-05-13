@@ -1,9 +1,4 @@
-* TODO Is this something we actually want to encourage?
-  This is much better than connecting to prod and running scripts or commands manually
-  But do we want to encourage creating these backdoor scripts or should we try and make sure
-  we have proper productised controls.
-
-* TODO Display multi line errors properly
+* DONE boolean inputs
 * TODO Select inputs
 * TODO File inputs
 * TODO Live view interface
@@ -16,3 +11,4 @@
 * TODO Progress bar
   Maybe callback function to optionally report progress
   State saved in genserver
+* TODO Approval mechanism

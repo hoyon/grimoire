@@ -14,6 +14,7 @@ defmodule GrimoireWeb.SpellMacros do
 
   def valid_type?(:integer), do: true
   def valid_type?(:string), do: true
+  def valid_type?(:boolean), do: true
   def valid_type?(_), do: false
 
   defmacro spell(id, block) do
@@ -35,12 +36,14 @@ defmodule GrimoireWeb.SpellMacros do
             unless valid_type?(type) do
               raise "invalid type #{type} found in spell '#{id}'"
             end
+
             Map.update!(acc, :params, fn ps -> ps ++ [%{name: name, type: type}] end)
 
           {:param, _, [name, type, opts]} ->
             unless valid_type?(type) do
               raise "invalid type #{type} found in spell '#{id}'"
             end
+
             Map.update!(acc, :params, fn ps -> ps ++ [%{name: name, type: type, opts: opts}] end)
 
           {:action, _, [module, fun]} ->

@@ -34,6 +34,7 @@ defmodule GrimoireWeb.Spells do
         case do_cast(spell, params) do
           %{status: :error, error_message: msg} ->
             raise "Cast failed: #{msg}"
+
           %{status: :ok, result: result} ->
             result
         end
@@ -41,7 +42,6 @@ defmodule GrimoireWeb.Spells do
   end
 
   defp do_cast(spell, params) do
-
     params =
       params
       |> cast_params(spell)
@@ -69,6 +69,9 @@ defmodule GrimoireWeb.Spells do
 
             :integer ->
               String.to_integer(val)
+
+            :boolean ->
+              cast_boolean(val)
           end
 
         Map.put(acc, found.name, cast_val)
@@ -77,6 +80,9 @@ defmodule GrimoireWeb.Spells do
       end
     end)
   end
+
+  defp cast_boolean("true"), do: true
+  defp cast_boolean("false"), do: false
 
   def run_action(spell, params) do
     {m, f} = spell.action

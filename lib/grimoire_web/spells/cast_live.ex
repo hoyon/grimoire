@@ -53,66 +53,6 @@ defmodule GrimoireWeb.CastLive do
     {:noreply, socket}
   end
 
-  def render(assigns) do
-    ~H"""
-    <div>
-      <%= live_redirect "Index", to: Routes.live_path(@socket, SpellsLive) %>
-    </div>
-
-    <h1><%= @spell.name %></h1>
-
-    <%= if @spell.description do %>
-      <p>
-        <%= @spell.description %>
-      </p>
-    <% end %>
-
-    <.form for={:spell} phx-submit="cast">
-      <%= hidden_input :params, @spell_id_field, value: @spell.id %>
-
-      <%= for param <- @spell.params do %>
-        <%= label :params, param.name, param.name %>
-
-        <%= case param.type do %>
-          <% :string -> %>
-            <%= text_input :params, param.name, required: required?(param) %>
-          <% :integer -> %>
-            <%= number_input :params, param.name, required: required?(param) %>
-        <% end %>
-      <% end %>
-
-      <%= submit "Do it!", disabled: not is_nil(@task) %>
-    </.form>
-
-    <%= if not is_nil(@task) do %>
-      Running...
-    <% end %>
-
-    <%= if not is_nil(@result) do %>
-    <div>
-      <div>
-        Took: <%= @result[:duration_ms] %>ms
-      </div>
-      <div>
-        Result: <%= format_result(@result) %>
-      </div>
-    </div>
-    <% end %>
-
-    <%= if not is_nil(@error) do %>
-    <div>
-      <div>
-        Took: <%= @error[:duration_ms] %>ms
-      </div>
-      <div>
-      Error!
-      <pre><%= @error[:error_message] %></pre>
-      </div>
-    </div>
-    <% end %>
-    """
-  end
-
   defp format_result(%{result: nil}), do: "Ok"
   defp format_result(%{result: res}), do: inspect(res)
 

@@ -41,6 +41,21 @@ defmodule GrimoireWeb.SpellBook do
     action __MODULE__, :optional
   end
 
+  spell :with_bool do
+    description """
+    Some super long description
+
+    With some stuff:
+    - sdf
+    - asdf
+    """
+
+    param :string_param, :string
+    param :integer_param, :integer
+    param :launch_rockets?, :boolean
+    action __MODULE__, :with_bool
+  end
+
   def console(_) do
     IO.inspect("hello from grimoire")
     :ok
@@ -80,5 +95,13 @@ defmodule GrimoireWeb.SpellBook do
     end
 
     {:ok, nil}
+  end
+
+  def with_bool(%{launch_rockets?: launch_rockets?}) do
+    if launch_rockets? do
+      {:ok, "Rockets have been launched!"}
+    else
+      {:ok, "Not launching rockets"}
+    end
   end
 end
