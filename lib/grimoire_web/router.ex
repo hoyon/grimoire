@@ -24,7 +24,7 @@ defmodule GrimoireWeb.Router do
     post "/spell/:spell", SpellController, :perform
 
     live "/spells_live", SpellsLive
-    live "/cast_live/:id", CastLive
+    live "/spells_live/:id", CastLive
   end
 
   # Other scopes may use custom stacks.

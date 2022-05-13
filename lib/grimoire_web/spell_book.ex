@@ -41,7 +41,9 @@ defmodule GrimoireWeb.SpellBook do
     handler __MODULE__, :optional
   end
 
-  spell :with_bool do
+  spell :complete do
+    name "Complete Example"
+
     description """
     Some super long description
 
@@ -50,15 +52,10 @@ defmodule GrimoireWeb.SpellBook do
     - asdf
     """
 
-    param :string_param, :string
-    param :integer_param, :integer
-    param :launch_rockets?, :boolean
+    param :string_param, :string, description: "A string"
+    param :integer_param, :integer, description: "A number"
+    param :launch_rockets?, :boolean, description: "Rockets!!!"
     handler __MODULE__, :with_bool
-  end
-
-  spell :custom_name do
-    name "My custom spell name"
-    handler __MODULE__, :console
   end
 
   def console(_) do

@@ -61,4 +61,10 @@ defmodule GrimoireWeb.CastLive do
   end
 
   defp required?(_), do: true
+
+  defp description(%{opts: opts}) do
+    Keyword.get(opts, :description, nil)
+  end
+
+  defp description(_), do: nil
 end
