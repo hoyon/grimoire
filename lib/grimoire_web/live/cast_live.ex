@@ -1,13 +1,12 @@
 defmodule GrimoireWeb.CastLive do
   use GrimoireWeb, :live_view
-  alias GrimoireWeb.Spells
   alias GrimoireWeb.SpellsLive
 
   @spell_book GrimoireWeb.SpellBook
   @spell_id_field "__grimoire_spell_id"
 
   def mount(%{"id" => spell_id}, _assigns, socket) do
-    spell = Spells.get(@spell_book, spell_id)
+    spell = Grimoire.get(@spell_book, spell_id)
 
     socket =
       socket
@@ -23,7 +22,7 @@ defmodule GrimoireWeb.CastLive do
   def handle_event("cast", %{"params" => params}, socket) do
     task =
       Task.Supervisor.async_nolink(Grimoire.TaskSupervisor, fn ->
-        Spells.cast(@spell_book, params[@spell_id_field], params)
+        Grimoire.cast(@spell_book, params[@spell_id_field], params)
       end)
 
     socket = assign(socket, :task, task)

@@ -1,12 +1,11 @@
 defmodule GrimoireWeb.SpellsLive do
   use GrimoireWeb, :live_view
-  alias GrimoireWeb.Spells
   alias GrimoireWeb.CastLive
 
   @spell_book GrimoireWeb.SpellBook
 
   def mount(_params, _assigns, socket) do
-    socket = assign(socket, :spells, Spells.all(@spell_book))
+    socket = assign(socket, :spells, Grimoire.all(@spell_book))
 
     {:ok, socket}
   end

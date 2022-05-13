@@ -1,5 +1,5 @@
 defmodule GrimoireWeb.SpellBook do
-  use GrimoireWeb.SpellMacros
+  use Grimoire.Macros
 
   spell :console do
     description "Output message to console"

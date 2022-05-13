@@ -1,12 +1,10 @@
-defmodule GrimoireWeb.SpellMacros do
+defmodule Grimoire.Macros do
+  alias Grimoire.Spell
+
   defmacro __using__(_) do
     quote do
-      import GrimoireWeb.SpellMacros
+      import Grimoire.Macros
     end
-  end
-
-  defmodule Spell do
-    defstruct id: nil, name: nil, description: nil, params: [], handler: nil
   end
 
   @spell_prefix :__grimoire_spell_
