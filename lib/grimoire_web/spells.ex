@@ -46,7 +46,7 @@ defmodule GrimoireWeb.Spells do
       params
       |> cast_params(spell)
 
-    {time, output} = :timer.tc(__MODULE__, :run_action, [spell, params])
+    {time, output} = :timer.tc(__MODULE__, :run_handler, [spell, params])
 
     duration_ms = time / 1000
 
@@ -84,8 +84,8 @@ defmodule GrimoireWeb.Spells do
   defp cast_boolean("true"), do: true
   defp cast_boolean("false"), do: false
 
-  def run_action(spell, params) do
-    {m, f} = spell.action
+  def run_handler(spell, params) do
+    {m, f} = spell.handler
 
     try do
       apply(m, f, [params])

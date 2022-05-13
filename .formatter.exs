@@ -3,7 +3,7 @@ locals_without_parens = [
   spell: 2,
   param: 2,
   param: 3,
-  action: 2
+  handler: 2
 ]
 
 [

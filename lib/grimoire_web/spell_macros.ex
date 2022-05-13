@@ -6,7 +6,7 @@ defmodule GrimoireWeb.SpellMacros do
   end
 
   defmodule Spell do
-    defstruct id: nil, name: nil, description: nil, params: [], action: nil
+    defstruct id: nil, name: nil, description: nil, params: [], handler: nil
   end
 
   @spell_prefix :__grimoire_spell_
@@ -46,16 +46,16 @@ defmodule GrimoireWeb.SpellMacros do
 
             Map.update!(acc, :params, fn ps -> ps ++ [%{name: name, type: type, opts: opts}] end)
 
-          {:action, _, [module, fun]} ->
-            Map.put(acc, :action, {Macro.expand(module, __CALLER__), fun})
+          {:handler, _, [module, fun]} ->
+            Map.put(acc, :handler, {Macro.expand(module, __CALLER__), fun})
 
           {field, _, args} ->
             raise "invalid field #{field}/#{length(args)} in spell '#{id}'"
         end
       end)
 
-    unless spell.action do
-      raise "spell '#{id}' has no action!"
+    unless spell.handler do
+      raise "spell '#{id}' has no handler!"
     end
 
     escaped = Macro.escape(spell)

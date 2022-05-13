@@ -1,6 +1,6 @@
 * DONE boolean inputs
 * TODO Select inputs
-* TODO File inputs
+* TODO File inputs?
 * TODO Live view interface
 * TODO Make into library
 * TODO Proper tests
@@ -12,3 +12,5 @@
   Maybe callback function to optionally report progress
   State saved in genserver
 * TODO Approval mechanism
+* DONE action -> handler
+* TODO give spells custom names
