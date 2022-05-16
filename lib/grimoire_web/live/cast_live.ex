@@ -12,8 +12,7 @@ defmodule GrimoireWeb.CastLive do
       socket
       |> assign(:spell, spell)
       |> assign(:task, nil)
-      |> assign(:result, nil)
-      |> assign(:error, nil)
+      |> assign(:context, nil)
       |> assign(:spell_id_field, @spell_id_field)
 
     {:ok, socket}
@@ -30,24 +29,13 @@ defmodule GrimoireWeb.CastLive do
     {:noreply, socket}
   end
 
-  def handle_info({ref, {:ok, result}}, socket) do
+  def handle_info({ref, context}, socket) do
     Process.demonitor(ref, [:flush])
 
     socket =
       socket
       |> assign(:task, nil)
-      |> assign(:result, result)
-
-    {:noreply, socket}
-  end
-
-  def handle_info({ref, {:error, result}}, socket) do
-    Process.demonitor(ref, [:flush])
-
-    socket =
-      socket
-      |> assign(:task, nil)
-      |> assign(:error, result)
+      |> assign(:context, context)
 
     {:noreply, socket}
   end
@@ -69,5 +57,19 @@ defmodule GrimoireWeb.CastLive do
 
   defp select_options(%{opts: opts}) do
     Keyword.fetch!(opts, :options)
+  end
+
+  defp duration(context) do
+    format_duration(Grimoire.Hooks.get_duration(context))
+  end
+
+  defp format_duration(nil), do: nil
+
+  defp format_duration(duration) do
+    if duration > 1000 do
+      [duration |> div(1000) |> Integer.to_string(), "ms"]
+    else
+      [Integer.to_string(duration), "µs"]
+    end
   end
 end

@@ -1,4 +1,6 @@
 defmodule Grimoire do
+  alias Grimoire.Context
+
   @spell_prefix Atom.to_string(Grimoire.Macros.spell_prefix())
 
   def all(spell_book) do
@@ -46,15 +48,38 @@ defmodule Grimoire do
       params
       |> cast_params(spell)
 
-    {time, output} = :timer.tc(__MODULE__, :run_handler, [spell, params])
+    %Context{}
+    |> run_hooks()
+    |> run_handler(spell, params)
+    |> Context.run_post_run_hooks()
+  end
 
-    duration_ms = time / 1000
+  defp run_handler(context, spell, params) do
+    {m, f} = spell.handler
 
-    case output do
-      :ok -> {:ok, %{result: nil, duration_ms: duration_ms}}
-      {:ok, val} -> {:ok, %{result: val, duration_ms: duration_ms}}
-      {:error, msg} -> {:error, %{error_message: msg, duration_ms: duration_ms}}
+    try do
+      result = apply(m, f, [params])
+
+      case result do
+        :ok -> %{context | result: :ok, error: false}
+        {:ok, value} -> %{context | result: value, error: false}
+        {:error, message} -> %{context | result: nil, error: true, error_message: message}
+      end
+    rescue
+      e ->
+        %{
+          context
+          | result: nil,
+            error: true,
+            error_message: Exception.format(:error, e, __STACKTRACE__)
+        }
     end
+  end
+
+  @hooks [&Grimoire.Hooks.timer_hook/1]
+
+  defp run_hooks(context) do
+    Enum.reduce(@hooks, context, & &1.(&2))
   end
 
   defp cast_params(params, spell) do
@@ -86,15 +111,4 @@ defmodule Grimoire do
 
   defp cast_boolean("true"), do: true
   defp cast_boolean("false"), do: false
-
-  def run_handler(spell, params) do
-    {m, f} = spell.handler
-
-    try do
-      apply(m, f, [params])
-    rescue
-      e ->
-        {:error, Exception.format(:error, e, __STACKTRACE__)}
-    end
-  end
 end

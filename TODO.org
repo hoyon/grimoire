@@ -1,6 +1,6 @@
 * MVP
-** TODO Approval mechanism
 ** TODO Audit logging to database
+** TODO Approval mechanism
 ** TODO Documentation
 ** TODO Make into library
 ** TODO Testing helpers for spells

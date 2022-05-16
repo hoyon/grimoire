@@ -56,25 +56,27 @@
   Running...
 <% end %>
 
-<%= if not is_nil(@result) do %>
-<div>
-  <div>
-    Took: <%= @result[:duration_ms] %>ms
-  </div>
-  <div>
-    Result: <%= format_result(@result) %>
-  </div>
-</div>
-<% end %>
+<%= if @context do %>
 
-<%= if not is_nil(@error) do %>
-<div>
-  <div>
-    Took: <%= @error[:duration_ms] %>ms
-  </div>
-  <div>
-  Error!
-  <pre><%= @error[:error_message] %></pre>
-  </div>
-</div>
+  <%= if not @context.error do %>
+    <div>
+      <div>
+        Took: <%= duration(@context) %>
+      </div>
+      <div>
+        Result: <%= format_result(@context) %>
+      </div>
+    </div>
+  <% else %>
+    <div>
+      <div>
+        Took: <%= duration(@context) %>
+      </div>
+      <div>
+      Error!
+      <pre><%= @context.error_message %></pre>
+      </div>
+    </div>
+  <% end %>
+
 <% end %>
