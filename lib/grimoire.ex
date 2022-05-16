@@ -3,6 +3,22 @@ defmodule Grimoire do
 
   @spell_prefix Atom.to_string(Grimoire.Macros.spell_prefix())
 
+  defmodule MissingParamException do
+    defexception [:message]
+
+    def exception(missing) do
+      %__MODULE__{message: "Missing params! #{inspect(missing)}"}
+    end
+  end
+
+  defmodule UnknownParamException do
+    defexception [:message]
+
+    def exception(unknown) do
+      %__MODULE__{message: "Unknown params! #{inspect(unknown)}"}
+    end
+  end
+
   def all(spell_book) do
     spell_book.__info__(:functions)
     |> Enum.filter(fn {fun, arity} ->
@@ -31,6 +47,8 @@ defmodule Grimoire do
     params =
       params
       |> cast_params(spell)
+
+    check_params(params, spell)
 
     %Context{}
     |> run_hooks()
@@ -77,7 +95,7 @@ defmodule Grimoire do
               val
 
             :integer ->
-              String.to_integer(val)
+              cast_integer(val)
 
             :boolean ->
               cast_boolean(val)
@@ -88,11 +106,25 @@ defmodule Grimoire do
 
         Map.put(acc, found.name, cast_val)
       else
-        acc
+        raise UnknownParamException, key
       end
     end)
   end
 
   defp cast_boolean("true"), do: true
   defp cast_boolean("false"), do: false
+
+  defp cast_integer(val) when is_integer(val), do: val
+  defp cast_integer(val) when is_binary(val), do: String.to_integer(val)
+
+  defp check_params(params, spell) do
+    present = MapSet.new(Map.keys(params))
+    wanted = MapSet.new(spell.params |> Enum.map(& &1.name))
+
+    diff = MapSet.difference(wanted, present)
+
+    unless MapSet.size(diff) == 0 do
+      raise MissingParamException, MapSet.to_list(diff)
+    end
+  end
 end
