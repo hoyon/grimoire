@@ -3,7 +3,7 @@ defmodule Grimoire.Macros do
 
   defmacro __using__(_) do
     quote do
-      import Grimoire.Macros
+      import Grimoire.Macros, only: [spell: 2]
     end
   end
 

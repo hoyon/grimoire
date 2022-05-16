@@ -14,8 +14,6 @@ defmodule Grimoire.Context do
   end
 
   def run_post_run_hooks(context) do
-    hooks = Enum.reverse(context.post_run_hooks)
-
-    Enum.reduce(hooks, context, & &1.(&2))
+    Enum.reduce(context.post_run_hooks, context, & &1.(&2))
   end
 end
