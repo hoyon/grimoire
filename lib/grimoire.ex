@@ -27,22 +27,6 @@ defmodule Grimoire do
     end
   end
 
-  def cast!(spell_book, spell_id, params) do
-    case get(spell_book, spell_id) do
-      nil ->
-        raise "invalid spell!"
-
-      spell ->
-        case do_cast(spell, params) do
-          %{status: :error, error_message: msg} ->
-            raise "Cast failed: #{msg}"
-
-          %{status: :ok, result: result} ->
-            result
-        end
-    end
-  end
-
   defp do_cast(spell, params) do
     params =
       params

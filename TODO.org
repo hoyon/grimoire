@@ -21,3 +21,4 @@
 ** TODO Timeouts / ability to cancel tasks
 ** TODO Progress bar callback
 ** TODO Run once parameter
+** TODO Erlang telemetry integration
