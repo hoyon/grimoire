@@ -62,3 +62,12 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :grimoire, ecto_repos: [Grimoire.Repo]
+
+config :grimoire, Grimoire.Repo,
+  database: "grimoire_dev",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  port: "5432"

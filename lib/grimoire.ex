@@ -39,18 +39,18 @@ defmodule Grimoire do
         {:error, "invalid spell"}
 
       spell ->
-        do_cast(spell, params)
+        do_cast(spell_book, spell, params)
     end
   end
 
-  defp do_cast(spell, params) do
+  defp do_cast(spell_book, spell, params) do
     params =
       params
       |> cast_params(spell)
 
     check_params(params, spell)
 
-    %Context{}
+    %Context{spell_book: spell_book, spell: spell}
     |> run_hooks()
     |> run_handler(spell, params)
     |> Context.run_post_run_hooks()
@@ -78,7 +78,7 @@ defmodule Grimoire do
     end
   end
 
-  @hooks [&Grimoire.Hooks.timer_hook/1]
+  @hooks [&Grimoire.Hooks.timer_hook/1, &Grimoire.Hooks.Audit.hook/1]
 
   defp run_hooks(context) do
     Enum.reduce(@hooks, context, & &1.(&2))

@@ -8,14 +8,10 @@ defmodule Grimoire.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Telemetry supervisor
       GrimoireWeb.Telemetry,
-      # Start the PubSub system
       {Phoenix.PubSub, name: Grimoire.PubSub},
-      # Start the Endpoint (http/https)
       GrimoireWeb.Endpoint,
-      # Start a worker by calling: Grimoire.Worker.start_link(arg)
-      # {Grimoire.Worker, arg},
+      Grimoire.Repo,
       {Task.Supervisor, name: Grimoire.TaskSupervisor}
     ]
 

@@ -77,7 +77,7 @@ defmodule GrimoireWeb.SpellBook do
   end
 
   def sleep(_) do
-    Process.sleep(1000)
+    Process.sleep(5000)
   end
 
   def fail(%{message: message}) do

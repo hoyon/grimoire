@@ -1,5 +1,12 @@
 defmodule Grimoire.Context do
-  defstruct result: nil, error: false, error_message: nil, post_run_hooks: [], hook_data: %{}
+  defstruct spell_book: nil,
+            spell: nil,
+            result: nil,
+            error: false,
+            error_message: nil,
+            post_run_hooks: [],
+            hook_data: %{},
+            metadata: %{}
 
   def put_hook_data(context, key, value) do
     %{context | hook_data: put_in(context.hook_data, [key], value)}
