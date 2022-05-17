@@ -10,25 +10,10 @@ defmodule GrimoireWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   scope "/", GrimoireWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
-
-    get "/spell", SpellController, :index
-    get "/spell/:spell", SpellController, :show
-    post "/spell/:spell", SpellController, :perform
-
-    live "/spells_live", SpellsLive
-    live "/spells_live/:id", CastLive
+    live "/", SpellsLive
+    live "/:id", CastLive
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", GrimoireWeb do
-  #   pipe_through :api
-  # end
 end

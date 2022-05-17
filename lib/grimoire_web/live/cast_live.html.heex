@@ -54,6 +54,7 @@
 
 <%= if not is_nil(@task) do %>
   Running...
+  <button phx-click="cancel">Cancel</button>
 <% end %>
 
 <%= if @context do %>

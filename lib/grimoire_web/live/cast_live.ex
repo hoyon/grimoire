@@ -21,10 +21,16 @@ defmodule GrimoireWeb.CastLive do
   def handle_event("cast", %{"params" => params}, socket) do
     task =
       Task.Supervisor.async_nolink(Grimoire.TaskSupervisor, fn ->
-        Grimoire.cast(@spell_book, params[@spell_id_field], params)
+        Grimoire.cast(@spell_book, params[@spell_id_field], Map.delete(params, @spell_id_field))
       end)
 
     socket = assign(socket, :task, task)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("cancel", _, socket) do
+    Task.Supervisor.terminate_child(Grimoire.TaskSupervisor, socket.assigns.task.pid)
 
     {:noreply, socket}
   end
@@ -36,6 +42,15 @@ defmodule GrimoireWeb.CastLive do
       socket
       |> assign(:task, nil)
       |> assign(:context, context)
+
+    {:noreply, socket}
+  end
+
+  def handle_info({:DOWN, _, _, _, _}, socket) do
+    socket =
+      socket
+      |> assign(:task, nil)
+      |> assign(:context, nil)
 
     {:noreply, socket}
   end
