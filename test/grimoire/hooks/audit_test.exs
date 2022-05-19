@@ -48,6 +48,22 @@ defmodule Grimoire.Hooks.AuditTest do
     assert length(history) == 3
   end
 
+  test "prune history" do
+    days_ago = DateTime.utc_now() |> DateTime.add(60 * 60 * 24 * -5, :second)
+
+    old = %{spell_book: "Elixir.MySpellBook", spell_id: "my_spell", started_at: days_ago, finished_at: days_ago, status: "finished", metadata: %{}}
+    recent = %{spell_book: "Elixir.MySpellBook", spell_id: "my_spell", started_at: days_ago, finished_at: DateTime.utc_now(), status: "finished", metadata: %{}}
+
+    Repo.insert_all("grimoire_executions", List.duplicate(old, 10))
+    Repo.insert_all("grimoire_executions", List.duplicate(recent, 5))
+
+    assert length(Audit.history(MySpellBook, %{id: :my_spell})) == 15
+
+    Audit.prune_history()
+
+    assert length(Audit.history(MySpellBook, %{id: :my_spell})) == 5
+  end
+
   defp get_execution do
     Repo.one(
       from(e in "grimoire_executions",

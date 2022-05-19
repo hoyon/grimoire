@@ -31,6 +31,12 @@ defmodule Grimoire.Hooks.Audit do
     )
   end
 
+  def prune_history do
+    one_day = 60 * 60 * 24
+    threshold = DateTime.utc_now() |> DateTime.add(-1 * one_day, :second)
+    Repo.delete_all(from e in Execution, where: e.finished_at < ^threshold)
+  end
+
   defp insert_execution(context) do
     {:ok, %{id: id}} =
       Repo.insert(%Execution{

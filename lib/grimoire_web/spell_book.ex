@@ -59,6 +59,10 @@ defmodule GrimoireWeb.SpellBook do
     handler __MODULE__, :complete
   end
 
+  spell :prune_history do
+    handler __MODULE__, :prune_history
+  end
+
   def console(_, _) do
     IO.inspect("hello from grimoire")
     :ok
@@ -108,5 +112,11 @@ defmodule GrimoireWeb.SpellBook do
     else
       {:ok, "Not launching rockets"}
     end
+  end
+
+  def prune_history(_, _) do
+    Grimoire.Hooks.Audit.prune_history()
+
+    :ok
   end
 end
