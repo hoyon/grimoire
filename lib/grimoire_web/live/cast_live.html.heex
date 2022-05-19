@@ -81,3 +81,26 @@
   <% end %>
 
 <% end %>
+
+<h2>Run history</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Started at</th>
+      <th>Finished at</th>
+      <th>Status</th>
+      <th>Metadata</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for entry <- @history do %>
+      <tr>
+        <td> <%= format_datetime(entry.started_at) %> </td>
+        <td> <%= format_datetime(entry.finished_at) %> </td>
+        <td> <%= entry.status %> </td>
+        <td> <%= inspect(entry.metadata) %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

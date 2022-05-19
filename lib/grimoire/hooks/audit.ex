@@ -19,6 +19,18 @@ defmodule Grimoire.Hooks.Audit do
     context
   end
 
+  def history(spell_book, spell) do
+    spell_id_string = Atom.to_string(spell.id)
+    spell_book_string = Atom.to_string(spell_book)
+
+    Repo.all(
+      from(e in Execution,
+        where: e.spell_id == ^spell_id_string and e.spell_book == ^spell_book_string,
+        order_by: {:desc, :started_at}
+      )
+    )
+  end
+
   defp insert_execution(context) do
     {:ok, %{id: id}} =
       Repo.insert(%Execution{

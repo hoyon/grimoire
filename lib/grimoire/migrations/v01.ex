@@ -12,6 +12,8 @@ defmodule Grimoire.Migrations.V01 do
       add :started_at, :timestamptz, null: false
       add :finished_at, :timestamptz, null: true
     end
+
+    create index(:grimoire_executions, [:spell_book, :spell_id])
   end
 
   def down do

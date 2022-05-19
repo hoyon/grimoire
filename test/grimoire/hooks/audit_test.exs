@@ -36,6 +36,18 @@ defmodule Grimoire.Hooks.AuditTest do
     assert exe.error_message == "Something went wrong!!"
   end
 
+  test "history" do
+    Audit.hook(%Context{spell_book: MySpellBook, spell: %{id: :my_spell}})
+    Audit.hook(%Context{spell_book: MySpellBook, spell: %{id: :my_spell}})
+    Audit.hook(%Context{spell_book: MySpellBook, spell: %{id: :my_spell}})
+
+    Audit.hook(%Context{spell_book: MySpellBook, spell: %{id: :other_spell}})
+
+    history = Audit.history(%{id: :my_spell})
+
+    assert length(history) == 3
+  end
+
   defp get_execution do
     Repo.one(
       from(e in "grimoire_executions",

@@ -1,6 +1,7 @@
 defmodule GrimoireWeb.CastLive do
   use GrimoireWeb, :live_view
   alias GrimoireWeb.SpellsLive
+  alias Grimoire.Hooks.Audit
 
   @spell_book GrimoireWeb.SpellBook
   @spell_id_field "__grimoire_spell_id"
@@ -14,6 +15,7 @@ defmodule GrimoireWeb.CastLive do
       |> assign(:task, nil)
       |> assign(:context, nil)
       |> assign(:spell_id_field, @spell_id_field)
+      |> assign(:history, Audit.history(@spell_book, spell))
 
     {:ok, socket}
   end
@@ -42,6 +44,7 @@ defmodule GrimoireWeb.CastLive do
       socket
       |> assign(:task, nil)
       |> assign(:context, context)
+      |> assign(:history, Audit.history(@spell_book, socket.assigns.spell))
 
     {:noreply, socket}
   end
@@ -86,5 +89,14 @@ defmodule GrimoireWeb.CastLive do
     else
       [Integer.to_string(duration), "µs"]
     end
+  end
+
+  defp format_datetime(nil), do: nil
+  defp format_datetime(datetime) do
+    [
+      datetime |> DateTime.to_date() |> Date.to_string(),
+      " ",
+      datetime |> DateTime.to_time() |> Time.truncate(:second) |> Time.to_string()
+    ]
   end
 end
