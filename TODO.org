@@ -2,12 +2,12 @@
 ** TODO Documentation
 ** TODO Make into library
 ** TODO Testing helpers for spells
-** TODO Tests for core functionality
 ** TODO Think of a new name
 ** TODO Validate select input values
 ** TODO Pass in metadata to cast
-** TODO Pass in context to spells
 ** TODO Spell to clear old execution history
+** DONE Pass in context to spells
+** DONE Tests for core functionality
 ** DONE Show execution history
 ** DONE Audit logging to database
 ** DONE action -> handler

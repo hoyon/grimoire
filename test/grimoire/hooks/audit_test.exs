@@ -43,7 +43,7 @@ defmodule Grimoire.Hooks.AuditTest do
 
     Audit.hook(%Context{spell_book: MySpellBook, spell: %{id: :other_spell}})
 
-    history = Audit.history(%{id: :my_spell})
+    history = Audit.history(MySpellBook, %{id: :my_spell})
 
     assert length(history) == 3
   end

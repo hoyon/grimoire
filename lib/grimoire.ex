@@ -60,7 +60,7 @@ defmodule Grimoire do
     {m, f} = spell.handler
 
     try do
-      result = apply(m, f, [params])
+      result = apply(m, f, [params, context])
 
       case result do
         :ok -> %{context | result: :ok, error: false}

@@ -59,36 +59,36 @@ defmodule GrimoireWeb.SpellBook do
     handler __MODULE__, :complete
   end
 
-  def console(_) do
+  def console(_, _) do
     IO.inspect("hello from grimoire")
     :ok
   end
 
-  def greet(%{name: name}) do
+  def greet(%{name: name}, _) do
     {:ok, "Hello #{name}!"}
   end
 
-  def echo(%{message: m}) do
+  def echo(%{message: m}, _) do
     {:ok, m}
   end
 
-  def add(%{a: a, b: b}) do
+  def add(%{a: a, b: b}, _) do
     {:ok, a + b}
   end
 
-  def sleep(_) do
+  def sleep(_, _) do
     Process.sleep(5000)
   end
 
-  def fail(%{message: message}) do
+  def fail(%{message: message}, _) do
     {:error, "Oh no! #{message}"}
   end
 
-  def raise_error(_) do
+  def raise_error(_, _) do
     raise "oh dear"
   end
 
-  def optional(params) do
+  def optional(params, _) do
     case params do
       %{something: ""} ->
         IO.inspect("got nothing")
@@ -100,7 +100,7 @@ defmodule GrimoireWeb.SpellBook do
     {:ok, nil}
   end
 
-  def complete(%{launch_rockets?: launch_rockets?} = params) do
+  def complete(%{launch_rockets?: launch_rockets?} = params, _) do
     IO.inspect(params)
 
     if launch_rockets? do

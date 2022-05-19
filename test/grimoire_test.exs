@@ -2,17 +2,17 @@ defmodule GrimoireTest do
   use Grimoire.DataCase, async: true
 
   defmodule SpellImpls do
-    def basic(_), do: :ok
+    def basic(_, _), do: :ok
 
-    def basic_fail(_), do: {:error, "fail"}
+    def basic_fail(_, _), do: {:error, "fail"}
 
-    def with_params(%{a: a}) do
+    def with_params(%{a: a}, _) do
       assert a == 1
 
       {:ok, "success!"}
     end
 
-    def raise_error(_), do: raise "oh noes!"
+    def raise_error(_, _), do: raise "oh noes!"
   end
 
   defmodule TestSpellBook do
