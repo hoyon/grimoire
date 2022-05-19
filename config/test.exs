@@ -12,3 +12,13 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :grimoire, ecto_repos: [Grimoire.Repo]
+
+config :grimoire, Grimoire.Repo,
+  database: "grimoire_test",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  port: "5432",
+  pool: Ecto.Adapters.SQL.Sandbox

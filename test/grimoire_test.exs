@@ -1,5 +1,5 @@
 defmodule GrimoireTest do
-  use ExUnit.Case, async: true
+  use Grimoire.DataCase, async: true
 
   defmodule SpellImpls do
     def basic(_), do: :ok
