@@ -31,6 +31,12 @@ defmodule GrimoireTest do
       handler SpellImpls, :with_params
     end
 
+    spell :with_optional_param do
+      param :a, :integer, required: true
+      param :b, :integer, required: false
+      handler SpellImpls, :basic
+    end
+
     spell :raise_error do
       handler SpellImpls, :raise_error
     end
@@ -81,6 +87,10 @@ defmodule GrimoireTest do
       assert context.error_message =~ "oh noes!"
     end
 
-    test "with optional params"
+    test "with optional params" do
+      context = Grimoire.cast(@spell_book, :with_optional_param, %{a: 123})
+      refute context.error
+      assert context.result == :ok
+    end
   end
 end

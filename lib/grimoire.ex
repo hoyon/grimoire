@@ -119,12 +119,18 @@ defmodule Grimoire do
 
   defp check_params(params, spell) do
     present = MapSet.new(Map.keys(params))
-    wanted = MapSet.new(spell.params |> Enum.map(& &1.name))
+    required = MapSet.new(spell.params |> Enum.filter(&param_required?/1) |> Enum.map(& &1.name))
 
-    diff = MapSet.difference(wanted, present)
+    diff = MapSet.difference(required, present)
 
     unless MapSet.size(diff) == 0 do
       raise MissingParamException, MapSet.to_list(diff)
     end
   end
+
+  defp param_required?(%{opts: opts}) do
+    Keyword.get(opts, :required, true)
+  end
+
+  defp param_required?(_), do: true
 end

@@ -1,5 +1,4 @@
 * MVP
-** TODO Audit logging to database
 ** TODO Approval mechanism
 ** TODO Documentation
 ** TODO Make into library
@@ -7,6 +6,7 @@
 ** TODO Tests for core functionality
 ** TODO Think of a new name
 ** TODO Validate select input values
+** DONE Audit logging to database
 ** DONE action -> handler
 ** DONE Boolean inputs
 ** DONE Descriptions for params
